@@ -1,0 +1,190 @@
+html {
+    background: url("../assets/amoungusbackground.jpg");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    color: white;
+    height: 100%;
+}
+
+ 
+
+#cookie {
+    position: fixed;
+    left: 25%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: transparent;
+    border: none;
+    transition: 75ms;
+
+
+    & img {
+        -webkit-user-drag: none;
+        user-select: none;
+        -webkit-user-select: none;
+        user-drag: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+
+        width: 350px;
+    }
+
+
+    &:hover {
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    &:active {
+        transform: translate(-50%, -50%) scale(0.95);
+    }
+}
+
+#upgrade-container {
+    position: fixed;
+    right: 0px;
+    top: 0px;
+    width: 50%;
+    height: 100;
+
+}
+
+#cookie-header {
+    position: fixed;
+    left: 25%;
+    top: -20px;
+    transform: translateX(-50%);
+    height: 0;
+
+
+
+
+}
+
+
+#upgrade-title {
+    text-decoration: solid;
+}
+
+#element-header {
+    text-decoration: underline;
+}
+
+#super-cookie {
+    visibility: hidden;
+    position: fixed;
+    right: 25%;
+    top: 75%;
+    transform: translate(-50%, -50%);
+    background: transparent;
+    border: none;
+    transition: 75ms;
+
+
+    & img {
+        -webkit-user-drag: none;
+        user-select: none;
+        -webkit-user-select: none;
+        user-drag: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+
+        width: 150px;
+    }
+    &:hover {
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    &:active {
+        transform: translate(-50%, -50%) scale(0.95);
+    }
+}
+
+#mmoverlay {
+    position: fixed;
+    top: 0%;
+    left: 0;
+    height: 200%;
+    width: 100%;
+    background: url("../assets/M\ and\ ms\ falling.png");
+    background-size: 250px;
+    background-repeat: repeat;
+    pointer-events: none;
+    visibility: hidden;
+    z-index: -1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000;    
+    animation-name: downAnimation;
+    animation-duration: 3s;
+    animation-direction: reverse;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+
+@keyframes downAnimation {
+    0% {
+        top:0%;
+        
+    }
+    100% {
+        top:-100%;
+
+
+    }
+    
+    
+}
+#cookiefrenzy-header {
+    top: 15%;
+    position: absolute;
+    left: 5%;
+    transform: rotate(335deg);
+    padding: 6px;
+    color: yellow;
+    border-style: solid;
+    visibility: hidden;   
+    -webkit-text-stroke: 2px gold; 
+}
+
+.upgradeButton {
+    height: 35px;
+    width: 70px;
+    background: url("../assets/buybutton.png");
+    background-size: cover;
+    background-position: center;
+    border-color: rgb(13, 192, 13);
+    border-style: thin;
+    background-repeat: none;
+    border-style: solid;
+    
+    
+}
+
+.moneyLoss {
+    position: fixed;
+    pointer-events: none;
+    color: orangered;
+    -webkit-text-stroke: 1.5px rgb(121, 0, 0); 
+}
+
+.moneyGain {
+    position: fixed;
+    pointer-events: none;
+    -webkit-text-stroke: 1.25px rgb(7, 32, 7); 
+    color: lime;
+}
+
+.upgradeCountHeader {
+    position: fixed;
+
+}
+
+#save-button {
+    margin: 3px;
+
+}
+#reset-button {
+    margin: 3px;
+    background-color: lightcoral;
+    border-color: red;
+}
