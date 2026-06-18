@@ -221,6 +221,41 @@ function cookieFrenzy() {
 frenzyHeader.style.visibility = "hidden";
 
 //upgrade stuffies
+
+function buyUpgrade(count, upgradeName, e) {
+  const upgrade = upgrades[upgradeName];
+  if (game.cookies >= count * upgrade.price) {
+    game.cookies -= count * upgrade.price;
+
+    const moneyLossElement = document.createElement("h2");
+    moneyLossElement.classList.add("moneyLoss");
+    moneyLossElement.innerHTML = `- $${(count * upgrade.price).toLocaleString()}`;
+
+    let fade = 100;
+    moneyLossElement.style.top = `${e.clientY - (100 - fade)}px`;
+    moneyLossElement.style.left = `${e.clientX}px`;
+
+    let v = setInterval(() => {
+      fade--;
+
+      if (fade < 0) {
+        moneyLossElement.remove();
+        clearInterval(v);
+      }
+
+      moneyLossElement.style.top = `${e.clientY - (100 - fade)}px`;
+      moneyLossElement.style.left = `${e.clientX}px`;
+      moneyLossElement.style.opacity = fade / 100;
+    }, 10);
+
+    document.body.append(moneyLossElement);
+
+    if (upgrade.effects.add) {
+      game.buildings[upgradeName] += count;
+    }
+  } else alert("no cash?");
+}
+
 for (const upgradeName in upgrades) {
   const upgrade = upgrades[upgradeName];
   const element = document.createElement("div");
@@ -248,44 +283,35 @@ for (const upgradeName in upgrades) {
   const upgradeButton = document.createElement("button");
   upgradeButton.classList.add("upgradeButton");
 
+  const upgrade10Button = document.createElement("button");
+  upgrade10Button.classList.add("upgrade10Button");
+
+  const upgrade100Button = document.createElement("button");
+  upgrade100Button.classList.add("upgrade100Button");
+
   upgradeButton.addEventListener("click", (e) => {
-    if (game.cookies >= upgrade.price) {
-      game.cookies -= upgrade.price;
+    buyUpgrade(1, upgradeName, e);
+  });
+  upgrade10Button.addEventListener("click", (e) => {
+    buyUpgrade(10, upgradeName, e);
+  });
 
-      const moneyLossElement = document.createElement("h2");
-      moneyLossElement.classList.add("moneyLoss");
-      moneyLossElement.innerHTML = `- $${upgrade.price}`;
-
-      let fade = 100;
-      moneyLossElement.style.top = `${e.clientY - (100 - fade)}px`;
-      moneyLossElement.style.left = `${e.clientX}px`;
-
-      let v = setInterval(() => {
-        fade--;
-
-        if (fade < 0) {
-          moneyLossElement.remove();
-          clearInterval(v);
-        }
-
-        moneyLossElement.style.top = `${e.clientY - (100 - fade)}px`;
-        moneyLossElement.style.left = `${e.clientX}px`;
-        moneyLossElement.style.opacity = fade / 100;
-      }, 10);
-
-      document.body.append(moneyLossElement);
-
-      if (upgrade.effects.add) {
-        game.buildings[upgradeName] += 1;
-      }
-    } else alert("no cash?");
+  upgrade100Button.addEventListener("click", (e) => {
+    buyUpgrade(100, upgradeName, e);
   });
 
   const upgradeCountHeader = document.createElement("h3");
   upgradeCountHeader.innerHTML = `x${game.buildings[upgradeName]}`;
   upgradeCountHeader.classList.add = "upgradeCountHeader";
 
-  element.append(elementHeader, elementDescription, upgradeButton);
+  element.append(
+    elementHeader,
+    elementDescription,
+    upgradeButton,
+    upgrade10Button,
+    upgrade100Button,
+  );
+
   upgradeContainer.append(element);
 }
 

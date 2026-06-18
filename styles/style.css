@@ -156,7 +156,35 @@ html {
     border-style: thin;
     background-repeat: none;
     border-style: solid;
+    margin-right:15px;
     
+}
+
+.upgrade10Button {
+    height: 35px;
+    width: 70px;
+    background: url("../assets/buy10button.png");
+    background-size: cover;
+    background-position: center;
+    border-color: rgb(50, 114, 246);
+    border-style: thin;
+    background-repeat: none;
+    border-style: solid;
+    margin-right:15px;
+    
+}
+
+.upgrade100Button {
+    height: 35px;
+    width: 70px;
+    background: url("../assets/buy100button.png");
+    background-size: cover;
+    background-position: center;
+    border-color: rgb(110, 49, 245);
+    border-style: thin;
+    background-repeat: none;
+    border-style: solid;
+    margin-right:15px;
     
 }
 
