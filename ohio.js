@@ -182,13 +182,13 @@ cookie.addEventListener("click", (e) => {
 });
 
 function updateText() {
-  cookieHeader.innerHTML = `${game.cookies.toFixed(2)} cookies <br>  ${game.stats.clickPower.toFixed(2)} per click - ${game.stats.cps.toFixed(2)} cps`;
-  document.title = `GreyClicker - ${game.cookies.toFixed(2)} cookies`;
+  cookieHeader.innerHTML = `${game.cookies.toLocaleString()} cookies <br>  ${game.stats.clickPower.toLocaleString()} per click - ${game.stats.cps.toLocaleString()} cps`;
+  document.title = `GreyClicker - ${game.cookies.toLocaleString()} cookies`;
   for (upgradeName in upgrades) {
     const upgradeHeader = document.querySelector(`#${upgradeName}`);
 
     upgradeHeader.querySelector(".buildingsOwnedIndicator").innerHTML =
-      `(${game.buildings[upgradeName]})`;
+      `(${game.buildings[upgradeName].toLocaleString()})`;
   }
 }
 
@@ -229,7 +229,7 @@ for (const upgradeName in upgrades) {
 
   const buildingsOwnedIndicator = document.createElement("span");
   buildingsOwnedIndicator.classList.add("buildingsOwnedIndicator");
-  buildingsOwnedIndicator.innerHTML = `(${game.buildings[upgradeName]})`;
+  buildingsOwnedIndicator.innerHTML = `(${game.buildings[upgradeName].toLocaleString()})`;
 
   elementHeader.append(
     buildingsOwnedIndicator,
@@ -355,6 +355,9 @@ superCookieTick();
 function save() {
   localStorage.setItem("game", JSON.stringify(game));
   alert("Game saved");
+
+  game.stats.clickPowerModifier = 1;
+  game.stats.cpsModifier = 1;
 }
 change();
 //save button stuffs
