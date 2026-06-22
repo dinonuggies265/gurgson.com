@@ -4,7 +4,15 @@ var upgradeContainer = document.getElementById("upgrade-container");
 var superCookie = document.getElementById("super-cookie");
 var saveButton = document.getElementById("save-button");
 var resetButton = document.getElementById("reset-button");
-var game = JSON.parse(localStorage.getItem("game")) || {
+var bitcookiePriceHistoryChart = document.getElementById("bitcookiePriceHistoryChart");
+var sellbitcookiesButton = document.getElementById("sellBitcookies");
+
+let chart;
+
+const bitcookieStartingPrice = 10_000;
+const bitcookieMaxVariation = 8_000;
+
+var game = JSON.parse(localStorage.getItem("game")) ?? {
   cookies: 0,
   buildings: {},
   achievementsGained: [],
@@ -15,8 +23,16 @@ var game = JSON.parse(localStorage.getItem("game")) || {
     cpsModifier: 1,
     clickPower: 1,
     clickPowerModifier: 1,
+    bitclickPower: 0,
+    bitclickPowerModifier: 1,
   },
+  bitcookies: {
+    price: bitcookieStartingPrice,
+    priceHistory: [bitcookieStartingPrice],
+    owned: 0,
+  }
 };
+
 
 var tickCount = 0;
 
@@ -25,6 +41,7 @@ const y = Math.random() * 10000;
 const translations = {
   clickPower: "click power",
   cps: "cookies per second",
+  bitclickPower: "bitcookie click power"
 };
 
 const upgrades = {
@@ -80,6 +97,17 @@ const upgrades = {
       },
     },
   },
+
+  gpu: {
+    name: "RTX 8080",
+    description: "automagically mines bitcookies, which convert to real ones",
+    price: 100_000,
+    effects: {
+      add: {
+        bitclickPower: 0.01
+      }
+    }
+  }
 };
 
 //achievements and stuff
@@ -159,30 +187,47 @@ cookie.addEventListener("click", (e) => {
   moneyGainElement.style.top = `${e.clientY - (100 - fade)}px`;
   moneyGainElement.style.left = `${e.clientX}px`;
 
+  const bitmoneyGainElement = document.createElement("h2")
+  bitmoneyGainElement.classList.add("bitmoneyGain")
+  bitmoneyGainElement.textContent = "+" + game.stats.bitclickPower;
+  bitmoneyGainElement.setAttribute("visible", game.stats.bitclickPower !== 0);
+
+  bitmoneyGainElement.style.top = `${e.clientY - (100 - fade)}px`;
+  bitmoneyGainElement.style.left = `${e.clientX}px`;
+
   let v = setInterval(() => {
     fade--;
 
     if (fade < 0) {
       moneyGainElement.remove();
+      bitmoneyGainElement.remove();
       clearInterval(v);
     }
 
     moneyGainElement.style.top = `${e.clientY - (100 - fade)}px`;
     moneyGainElement.style.left = `${e.clientX}px`;
     moneyGainElement.style.opacity = fade / 100;
+
+    bitmoneyGainElement.style.top = `${e.clientY - (100 - fade) + 25}px`;
+    bitmoneyGainElement.style.left = `${e.clientX + 25}px`;
+    bitmoneyGainElement.style.opacity = fade / 100;
   }, 10);
+
+
   cookieClicked();
-  document.body.append(moneyGainElement);
+
+  document.body.append(moneyGainElement, bitmoneyGainElement);
 
   function cookieClicked() {
     game.cookies += game.stats.clickPower;
     game.totalCookiesClicked += 1;
+    game.bitcookies.owned += game.stats.bitclickPower ?? 0
     updateText();
   }
 });
 
 function updateText() {
-  cookieHeader.innerHTML = `${game.cookies.toLocaleString()} cookies <br>  ${game.stats.clickPower.toLocaleString()} per click - ${game.stats.cps.toLocaleString()} cps`;
+  cookieHeader.innerHTML = `${game.cookies.toLocaleString()} cookies ${game.bitcookies.owned > 0 ? `<br>${game.bitcookies.owned.toFixed(2).toLocaleString()} bitcookies` : ""} <br>  ${game.stats.clickPower.toLocaleString()} per click - ${game.stats.cps.toLocaleString()} cps`;
   document.title = `GreyClicker - ${game.cookies.toLocaleString()} cookies`;
   for (upgradeName in upgrades) {
     const upgradeHeader = document.querySelector(`#${upgradeName}`);
@@ -317,7 +362,7 @@ for (const upgradeName in upgrades) {
 
 setInterval(() => {
   game.cookies += game.stats.cps / 10;
-  const blockedStats = ["cpsModifier", "clickPowerModifier"];
+  const blockedStats = ["cpsModifier", "clickPowerModifier", "bitclickPowerModifier"];
 
   Object.keys(game.stats).forEach((stat) => {
     if (blockedStats.includes(stat)) return;
@@ -339,11 +384,34 @@ setInterval(() => {
   }
   game.stats.cps *= game.stats.cpsModifier;
   game.stats.clickPower *= game.stats.clickPowerModifier;
-  updateText();
+  game.stats.bitclickPower *= game.stats.bitclickPowerModifier
 
-  for (const achievement in achievements) {
-  }
+  updateText();
 }, 100);
+
+setInterval(() => {
+  tickMarket();
+}, 500)
+
+function tickMarket() {
+  game.bitcookies.price += ((Math.random() * 10) - 5) * 20 * 8;
+
+  game.bitcookies.price = Math.min(Math.max(game.bitcookies.price, bitcookieStartingPrice - bitcookieMaxVariation), bitcookieStartingPrice + bitcookieMaxVariation)
+
+  game.bitcookies.priceHistory.push(game.bitcookies.price);
+  chart.data.labels.push(new Date().toLocaleTimeString())
+  chart.data.datasets[0].data.push(game.bitcookies.price)
+
+  if (game.bitcookies.priceHistory.length > 50) {
+    game.bitcookies.priceHistory.shift()
+    chart.data.datasets[0].data.shift();
+    chart.data.labels.shift()
+  }
+
+  chart.data.datasets[0].label = `Bitcookie Price (${game.bitcookies.price.toLocaleString()})`
+
+  chart.update("none");
+}
 
 const c = document.querySelector("body");
 const b = document.querySelector("#super-cookie");
@@ -395,4 +463,79 @@ function reset() {
     location.reload();
   }
 }
+
 resetButton.addEventListener("click", reset);
+
+sellbitcookiesButton.addEventListener("click", (e) => {
+  if (game.bitcookies.owned > 0) {
+    let delta = game.bitcookies.owned * game.bitcookies.price
+    game.cookies += delta;
+    game.bitcookies.owned = 0;
+
+    const moneyGainElement = document.createElement("h2");
+    moneyGainElement.classList.add("moneyGain");
+    moneyGainElement.innerHTML = `+ $${(delta).toLocaleString()}<br><span class="bitmoneyGain"> - ${(delta / game.bitcookies.price).toFixed().toLocaleString()}</span>`;
+
+    let fade = 400;
+    let totalFade = 400;
+
+    moneyGainElement.style.top = `${e.clientY - (totalFade - fade)}px`;
+    moneyGainElement.style.left = `${e.clientX}px`;
+
+    let v = setInterval(() => {
+      fade--;
+
+      if (fade < 0) {
+        moneyGainElement.remove();
+        clearInterval(v);
+      }
+
+      moneyGainElement.style.top = `${e.clientY - (totalFade - fade)}px`;
+      moneyGainElement.style.left = `${e.clientX}px`;
+      moneyGainElement.style.opacity = fade / totalFade;
+    }, 10);
+
+    document.body.append(moneyGainElement)
+  }
+})
+
+chart = new Chart(bitcookiePriceHistoryChart, {
+  type: "line",
+  data: {
+    labels: new Array(game.bitcookies.priceHistory.length).fill(""),
+    datasets: [{
+      label: 'Bitcookie Price',
+      data: [],
+      fill: true,
+      borderColor: 'rgb(176, 59, 248)',
+      color: "red",
+      tension: 0.25
+    }],
+  },
+  options: {
+    scales: {
+      y: {
+        min: 2000,
+        max: 18000
+      },
+      x: {
+        ticks: {
+          display: false
+        }
+      }
+    },
+    plugins: {
+      legend: {
+        labels: {
+          color: "rgb(176, 59, 248)",
+          boxWidth: 0,
+          font: {
+            size: 28
+          }
+        }
+      }
+    }
+  }
+})
+
+chart.data.datasets[0].data = game.bitcookies.priceHistory

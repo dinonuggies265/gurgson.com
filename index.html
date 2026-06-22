@@ -4,27 +4,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id = "page-title"> GreyClicker</title>
-    <link rel="stylesheet" href="styles/style.css"> 
+    <title id="page-title"> GreyClicker</title>
+    <link rel="stylesheet" href="styles/style.css">
     <link rel="shortcut icon" href="assets/supercookie.png" type="image/x-icon">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js"></script>
 </head>
 
 <body>
-    <h1 id="cookie-header">  cookies </h1>
+    <h1 id="cookie-header"> cookies </h1>
     <button id="cookie"><img src="assets/cookie.jpg" alt=""></button>
     <div id="upgrade-container">
-       <h2 id="upgrade-title"></h2>
+        <h2 id="upgrade-title"></h2>
     </div>
-  <button id="super-cookie"><img src=assets/supercookie.png alt=""></button>
- <h1  id="cookiefrenzy-header">Cookie Frenzy!</h1>
+    <button id="super-cookie"><img src=assets/supercookie.png alt=""></button>
+    <h1 id="cookiefrenzy-header">Cookie Frenzy!</h1>
     <div id="mmoverlay"></div>
     <button id="save-button">save</button>
     <br>
     <button id="reset-button">reset</button>
+    <div id="bitcookiePriceHistory" style="width:25vw; position:fixed; bottom:0; left:0;">
+        <button id="sellBitcookies">Sell Bitcookies</button>
+        <canvas style="background-color: rgba(0, 0, 0, .6)" id="bitcookiePriceHistoryChart"></canvas>
+    </div>
 </body>
 <script src="ohio.js">
-  
- 
+
+
 </script>
 
 </html>
