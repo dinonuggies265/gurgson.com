@@ -87,7 +87,6 @@ const upgrades = {
       },
     },
   },
-
   oven: {
     name: "Industrial Oven",
     description: "An oven that bakes cookies ",
@@ -98,7 +97,16 @@ const upgrades = {
       },
     },
   },
-
+  seeds: {
+    name: "Baked Chicken Cookie seeds",
+    description: "Improved Baked Chicken flavored cookie seeds",
+    price: 50_000,
+    effects: {
+      add: {
+        clickPower: 30
+      }
+    }
+  },
   gpu: {
     name: "RTX 8080",
     description: "automagically mines bitcookies, which convert to real ones",
@@ -108,7 +116,41 @@ const upgrades = {
         bitclickPower: 0.01
       }
     }
+  },
+  dirt_farmer_joe: {
+    name: "Dirt Farmer Joe",
+    description: "harvest the cookie seeds from the roots of the earth",
+    price: 750_000,
+    effects: {
+      add: {
+        cps: 250
+      }
+    }
+  },
+  mcdonalds: {
+    name: "McDonalds Store",
+    description: "A McDonalds location purely dedicated to selling cookies",
+    price: 5_000_000,
+    effects: {
+      add: {
+        cps: 5250,
+        clickPower: 500
+      }
+    }
+  },
+  cookiescript: {
+    name: "CookieScript™️ Tutorial book",
+    description: "Code cookies directly into the world",
+    price: 175_000_000,
+    effects: {
+      add: {
+        cps: 10_000,
+        clickPower: 2_500,
+        bitclickPower: 50
+      }
+    }
   }
+
 };
 
 //achievements and stuff
@@ -156,6 +198,13 @@ const achievements = {
       return game.superCookiesClicked >= 5;
     },
   },
+  "max-price-bitcookie": {
+    name: "Wolf of cookie street",
+    description: "Bit cookie price reached 18,000!!!",
+    requirements: () => {
+      return game.bitcookies.price >= 18000;
+    }
+  }
 };
 
 Object.keys(upgrades).forEach((upgrade) => {
@@ -426,7 +475,7 @@ function change() {
 b.addEventListener("click", change);
 
 //ticks and stuffies
-var t = setInterval(achievementsCheckTick, 10);
+var t = setInterval(achievementsCheckTick, 400);
 
 var w = setInterval(checkTickCount, 10);
 
