@@ -26,6 +26,7 @@ html {
     background: transparent;
     border: none;
     transition: 75ms;
+    cursor:pointer;
 
 
     & img {
@@ -171,7 +172,7 @@ html {
     background-repeat: none;
     border-style: solid;
     margin-right: 15px;
-
+    cursor:pointer;
 }
 
 .upgrade10Button {
@@ -185,6 +186,7 @@ html {
     background-repeat: none;
     border-style: solid;
     margin-right: 15px;
+      cursor:pointer;
 
 }
 
@@ -199,6 +201,7 @@ html {
     background-repeat: none;
     border-style: solid;
     margin-right: 15px;
+    cursor:pointer;
 
 }
 
