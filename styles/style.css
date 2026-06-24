@@ -26,7 +26,7 @@ html {
     background: transparent;
     border: none;
     transition: 75ms;
-    cursor:pointer;
+    cursor: pointer;
 
 
     & img {
@@ -60,7 +60,7 @@ html {
     width: 50%;
     height: 100%;
     overflow-y: auto;
-    padding-bottom:20px;
+    padding-bottom: 20px;
     box-sizing: border-box;
 
 }
@@ -175,7 +175,7 @@ html {
     background-repeat: none;
     border-style: solid;
     margin-right: 15px;
-    cursor:pointer;
+    cursor: pointer;
 }
 
 .upgrade10Button {
@@ -189,7 +189,7 @@ html {
     background-repeat: none;
     border-style: solid;
     margin-right: 15px;
-      cursor:pointer;
+    cursor: pointer;
 
 }
 
@@ -204,7 +204,7 @@ html {
     background-repeat: none;
     border-style: solid;
     margin-right: 15px;
-    cursor:pointer;
+    cursor: pointer;
 
 }
 
@@ -243,4 +243,19 @@ html {
     margin: 3px;
     background-color: lightcoral;
     border-color: red;
+}
+
+#sellBitcookies {
+    color:rgb(110, 49, 245);
+    border-color:rgb(110, 49, 245);
+    background:none;
+    font-size:16px;
+}
+
+#bitcookiePriceHistory {
+    width: 25vw;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    padding:20px;
 }

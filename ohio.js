@@ -191,7 +191,7 @@ cookie.addEventListener("click", (e) => {
   const bitmoneyGainElement = document.createElement("h2")
   bitmoneyGainElement.classList.add("bitmoneyGain")
   bitmoneyGainElement.textContent = "+" + game.stats.bitclickPower;
-  bitmoneyGainElement.setAttribute("visible", game.stats.bitclickPower !== 0);
+  bitmoneyGainElement.style.visibility = game.stats.bitclickPower > 0 ? "visible" : "hidden";
 
   bitmoneyGainElement.style.top = `${e.clientY - (100 - fade)}px`;
   bitmoneyGainElement.style.left = `${e.clientX}px`;
@@ -468,13 +468,13 @@ function reset() {
 resetButton.addEventListener("click", reset);
 
 setInterval(() => {
-if(game.stats.bitclickPower>0){
-  bitcookiePriceHistory.style.visibility="visible"
+  if (game.stats.bitclickPower > 0) {
+    bitcookiePriceHistory.style.visibility = "visible"
 
-} else{
-  bitcookiePriceHistory.style.visibility="hidden"
-}
-},1000)
+  } else {
+    bitcookiePriceHistory.style.visibility = "hidden"
+  }
+}, 1000)
 
 
 
