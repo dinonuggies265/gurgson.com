@@ -5,6 +5,7 @@ var superCookie = document.getElementById("super-cookie");
 var saveButton = document.getElementById("save-button");
 var resetButton = document.getElementById("reset-button");
 var bitcookiePriceHistoryChart = document.getElementById("bitcookiePriceHistoryChart");
+var bitcookiePriceHistory = document.getElementById("bitcookiePriceHistory");
 var sellbitcookiesButton = document.getElementById("sellBitcookies");
 
 let chart;
@@ -466,8 +467,27 @@ function reset() {
 
 resetButton.addEventListener("click", reset);
 
+setInterval(() => {
+if(game.stats.bitclickPower>0){
+  bitcookiePriceHistory.style.visibility="visible"
+
+} else{
+  bitcookiePriceHistory.style.visibility="hidden"
+}
+},1000)
+
+
+
+
+
+
+
+
+
 sellbitcookiesButton.addEventListener("click", (e) => {
   if (game.bitcookies.owned > 0) {
+
+
     let delta = game.bitcookies.owned * game.bitcookies.price
     game.cookies += delta;
     game.bitcookies.owned = 0;
