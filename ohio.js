@@ -239,7 +239,7 @@ cookie.addEventListener("click", (e) => {
 
   const bitmoneyGainElement = document.createElement("h2")
   bitmoneyGainElement.classList.add("bitmoneyGain")
-  bitmoneyGainElement.textContent = "+" + game.stats.bitclickPower;
+  bitmoneyGainElement.textContent = "+" + game.stats.bitclickPower.toFixed(2);
   bitmoneyGainElement.style.visibility = game.stats.bitclickPower > 0 ? "visible" : "hidden";
 
   bitmoneyGainElement.style.top = `${e.clientY - (100 - fade)}px`;
